@@ -17,13 +17,15 @@ interface UserContextType {
   token: string | null;
   login: (user: User, token: string) => void;
   logout: () => void;
+  loading?: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const useUserContext = () => {
   const context = useContext(UserContext);
-  if (!context) throw new Error("useUserContext must be used within UserProvider");
+  if (!context)
+    throw new Error("useUserContext must be used within UserProvider");
   return context;
 };
 
@@ -32,6 +34,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -40,6 +43,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
     }
+    setLoading(false); 
   }, []);
 
   const login = (userData: User, token: string) => {
@@ -57,7 +61,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <UserContext.Provider value={{ user, token, login, logout }}>
+    <UserContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );

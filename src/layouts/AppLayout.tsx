@@ -24,6 +24,7 @@ export const AppLayout: React.FC<AppLayoutProps> = () => {
             flex: 1,
             display: "flex",
             flexDirection: "column",
+            backgroundColor: "#f8f8f8",
           }}
         >
           <Outlet />

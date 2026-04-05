@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
                 textDecoration: "none",
                 color: "inherit",
                 fontWeight: 600,
-                fontSize: { xs: "0.95rem", sm: "1.1rem", md: "1.25rem" },
+                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
               }}
             >
               Anywhere Trips
@@ -73,7 +73,7 @@ export const Navbar: React.FC = () => {
             >
               <Tooltip title="Home">
                 <IconButton component={Link} to="/" sx={{ color: "#1D1D1D" }}>
-                  <Home size={isDesktop ? 25 : 20} />
+                  <Home size={isDesktop ? 25 : 22} />
                 </IconButton>
               </Tooltip>
 
@@ -84,7 +84,7 @@ export const Navbar: React.FC = () => {
                     to="/profile"
                     sx={{ color: "#1D1D1D" }}
                   >
-                    <UserCheck size={isDesktop ? 25 : 20} />
+                    <UserCheck size={isDesktop ? 25 : 22} />
                   </IconButton>
                 </Tooltip>
               ) : (
@@ -93,14 +93,14 @@ export const Navbar: React.FC = () => {
                     onClick={() => setOpenAuth(true)}
                     sx={{ color: "#1D1D1D" }}
                   >
-                    <User size={isDesktop ? 25 : 20} />
+                    <User size={isDesktop ? 25 : 22} />
                   </IconButton>
                 </Tooltip>
               )}
 
               <Tooltip title="Search">
                 <IconButton component={Link} to="/" sx={{ color: "#1D1D1D" }}>
-                  <Search size={isDesktop ? 25 : 20} />
+                  <Search size={isDesktop ? 25 : 22} />
                 </IconButton>
               </Tooltip>
             </Box>

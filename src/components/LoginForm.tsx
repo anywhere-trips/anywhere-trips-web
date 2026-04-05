@@ -71,7 +71,7 @@ export const LoginForm: React.FC = () => {
     <>
       <TextField
         fullWidth
-        label="Username"
+        placeholder="Username"
         margin="normal"
         size="small"
         value={username}
@@ -83,23 +83,25 @@ export const LoginForm: React.FC = () => {
         onBlur={() => handleBlur("username")}
         error={!!usernameError}
         helperText={usernameError}
+        variant="standard"
         FormHelperTextProps={{
-          sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+          sx: { fontSize: helperFontSize },
         }}
-        InputProps={{ sx: { fontSize: inputFontSize } }}
-        InputLabelProps={{
-          sx: { fontSize: inputFontSize, "&.Mui-focused": { color: accent } },
-        }}
-        sx={{
-          "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-            borderColor: accent,
+        InputProps={{
+          disableUnderline: true,
+          sx: {
+            fontSize: inputFontSize,
+            backgroundColor: "#fff",
+            px: 2,
+            py: 1.2,
+            borderRadius: 25,
           },
         }}
       />
 
       <TextField
         fullWidth
-        label="Password"
+        placeholder="Password"
         type="password"
         margin="normal"
         size="small"
@@ -112,16 +114,18 @@ export const LoginForm: React.FC = () => {
         onBlur={() => handleBlur("password")}
         error={!!passwordError}
         helperText={passwordError}
+        variant="standard"
         FormHelperTextProps={{
-          sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+          sx: { fontSize: helperFontSize },
         }}
-        InputProps={{ sx: { fontSize: inputFontSize } }}
-        InputLabelProps={{
-          sx: { fontSize: inputFontSize, "&.Mui-focused": { color: accent } },
-        }}
-        sx={{
-          "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-            borderColor: accent,
+        InputProps={{
+          disableUnderline: true,
+          sx: {
+            fontSize: inputFontSize,
+            backgroundColor: "#fff",
+            px: 2,
+            py: 1.2,
+            borderRadius: 25,
           },
         }}
       />
@@ -135,9 +139,10 @@ export const LoginForm: React.FC = () => {
           mt: 2,
           backgroundColor: accent,
           textTransform: "none",
-          position: "relative",
-          "&:hover": { backgroundColor: "#17a77f" },
           fontSize: inputFontSize,
+          borderRadius: "25px",
+          py: { xs: 1, md: 1.25 },
+          "&:hover": { backgroundColor: "#17a77f" },
         }}
         onClick={handleSubmit}
       >

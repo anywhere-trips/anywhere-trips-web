@@ -17,8 +17,8 @@ export const Footer: React.FC<FooterProps> = () => {
       component="footer"
       sx={{
         py: { xs: 4, md: 5 },
-        color: "#1D1D1D",
-        backgroundColor: "#F8F8F8",
+        color: "#1d1d1d",
+        backgroundColor: "#ffffff",
       }}
     >
       <Container maxWidth="lg">

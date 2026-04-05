@@ -107,6 +107,7 @@ export const Profile: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#f8f8f8",
         }}
       >
         <Typography sx={{ fontSize: "1rem", color: "#1d1d1d" }}>
@@ -126,19 +127,22 @@ export const Profile: React.FC = () => {
           alignItems: "center",
           gap: { xs: 2, md: 3 },
           textAlign: { xs: "center", md: "left" },
+          backgroundColor: "#ffffff",
+          p: { xs: 2, md: 3 },
+          borderRadius: 5,
         }}
       >
         {loadingProfile ? (
           <Skeleton
             variant="circular"
-            width={isDesktop ? 100 : 80}
-            height={isDesktop ? 100 : 80}
+            width={isDesktop ? 90 : 80}
+            height={isDesktop ? 90 : 80}
           />
         ) : (
           <Avatar
             sx={{
-              height: { xs: 80, md: 100 },
-              width: { xs: 80, md: 100 },
+              height: { xs: 80, md: 90 },
+              width: { xs: 80, md: 90 },
               fontWeight: 500,
               fontSize: { xs: "1.5rem", md: "2rem" },
               backgroundColor: "#1cb690",
@@ -153,7 +157,12 @@ export const Profile: React.FC = () => {
           spacing={1.5}
         >
           {loadingProfile ? (
-            <Skeleton sx={{ borderRadius: 1.25 }} variant="text" width={120} height={30} />
+            <Skeleton
+              sx={{ borderRadius: 1.25 }}
+              variant="text"
+              width={120}
+              height={30}
+            />
           ) : (
             <Typography
               sx={{
@@ -167,11 +176,8 @@ export const Profile: React.FC = () => {
           )}
 
           <Tooltip title="Logout">
-            <IconButton
-              sx={{ color: "#1d1d1d", backgroundColor: "#f8f8f8" }}
-              onClick={logout}
-            >
-              <LogOut size={isDesktop ? 23 : 18} />
+            <IconButton sx={{ color: "#1d1d1d" }} onClick={logout}>
+              <LogOut size={isDesktop ? 25 : 20} />
             </IconButton>
           </Tooltip>
         </Stack>
@@ -191,99 +197,124 @@ export const Profile: React.FC = () => {
         <Stack spacing={2} sx={{ maxWidth: { xs: "100%", md: 500 } }}>
           {loadingProfile ? (
             [1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} sx={{ borderRadius: 1.25 }} variant="rectangular" height={50} />
+              <Skeleton
+                key={i}
+                sx={{ borderRadius: 25 }}
+                variant="rectangular"
+                height={50}
+              />
             ))
           ) : (
             <>
               <TextField
-                label="First Name"
+                placeholder="First Name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 error={!!errors.firstName}
                 helperText={errors.firstName}
                 FormHelperTextProps={{
-                  sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+                  sx: { fontSize: helperFontSize },
                 }}
                 size={isDesktop ? "medium" : "small"}
-                InputProps={{ sx: { fontSize: inputFontSize } }}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    fontSize: inputFontSize,
+                    backgroundColor: "#fff",
+                    px: 2,
+                    py: 1,
+                    borderRadius: 25,
+                  },
+                }}
                 InputLabelProps={{
                   sx: {
                     fontSize: inputFontSize,
                     "&.Mui-focused": { color: "#1cb690" },
                   },
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "#1cb690",
-                  },
-                }}
               />
               <TextField
-                label="Middle Name"
+                placeholder="Middle Name"
                 value={middleName}
                 onChange={(e) => setMiddleName(e.target.value)}
                 error={!!errors.middleName}
                 helperText={errors.middleName}
                 FormHelperTextProps={{
-                  sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+                  sx: { fontSize: helperFontSize },
                 }}
                 size={isDesktop ? "medium" : "small"}
-                InputProps={{ sx: { fontSize: inputFontSize } }}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    fontSize: inputFontSize,
+                    backgroundColor: "#fff",
+                    px: 2,
+                    py: 1,
+                    borderRadius: 25,
+                  },
+                }}
                 InputLabelProps={{
                   sx: {
                     fontSize: inputFontSize,
                     "&.Mui-focused": { color: "#1cb690" },
                   },
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "#1cb690",
-                  },
-                }}
               />
               <TextField
-                label="Last Name"
+                placeholder="Last Name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 error={!!errors.lastName}
                 helperText={errors.lastName}
                 FormHelperTextProps={{
-                  sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+                  sx: { fontSize: helperFontSize },
                 }}
                 size={isDesktop ? "medium" : "small"}
-                InputProps={{ sx: { fontSize: inputFontSize } }}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    fontSize: inputFontSize,
+                    backgroundColor: "#fff",
+                    px: 2,
+                    py: 1,
+                    borderRadius: 25,
+                  },
+                }}
                 InputLabelProps={{
                   sx: {
                     fontSize: inputFontSize,
                     "&.Mui-focused": { color: "#1cb690" },
                   },
                 }}
-                sx={{
-                  "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "#1cb690",
-                  },
-                }}
               />
               <TextField
-                label="Email"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={!!errors.email}
                 helperText={errors.email}
                 FormHelperTextProps={{
-                  sx: { px: 0, marginLeft: 0, fontSize: helperFontSize },
+                  sx: { fontSize: helperFontSize },
                 }}
                 size={isDesktop ? "medium" : "small"}
-                InputProps={{ sx: { fontSize: inputFontSize } }}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  sx: {
+                    fontSize: inputFontSize,
+                    backgroundColor: "#fff",
+                    px: 2,
+                    py: 1,
+                    borderRadius: 25,
+                  },
+                }}
                 InputLabelProps={{
                   sx: {
                     fontSize: inputFontSize,
                     "&.Mui-focused": { color: "#1cb690" },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                    borderColor: "#1cb690",
                   },
                 }}
               />
@@ -300,6 +331,7 @@ export const Profile: React.FC = () => {
               py: { xs: 1, md: 1.25 },
               textTransform: "none",
               backgroundColor: "#1cb690",
+              borderRadius: 25,
               "&:hover": { backgroundColor: "#17a77f" },
             }}
           >

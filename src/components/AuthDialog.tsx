@@ -27,8 +27,20 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({ open, onClose }) => {
   }, [user, open, onClose]);
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <DialogContent sx={{ position: "relative", p: 3 }}>
+    <Dialog
+      PaperProps={{
+        sx: {
+          borderRadius: 5,
+        },
+      }}
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="xs"
+    >
+      <DialogContent
+        sx={{ position: "relative", p: 3, backgroundColor: "#f8f8f8" }}
+      >
         <IconButton
           sx={{
             position: "absolute",
