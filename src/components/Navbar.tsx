@@ -10,7 +10,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Search, Home, User, UserCheck } from "lucide-react";
 import { Badge } from "@mui/material";
 
@@ -22,6 +22,8 @@ import { useUserContext } from "../providers/UserProvider";
 
 export const Navbar: React.FC = () => {
   const { user } = useUserContext();
+
+  const location = useLocation();
 
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [openAuth, setOpenAuth] = useState<boolean>(false);
@@ -53,30 +55,48 @@ export const Navbar: React.FC = () => {
       >
         <Container maxWidth="lg">
           <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-            <Typography
-              component={Link}
-              to="/"
-              sx={{
-                textDecoration: "none",
-                color: "#1cb690",
-                fontWeight: 600,
-                fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-              }}
-            >
-              <Box
-                component="img"
-                src={Logo}
-                alt="Logo"
+            {location.pathname === "/profile" ? (
+              <Typography
+                component={Link}
+                to="/"
                 sx={{
-                  width: { xs: 24, sm: 28, md: 32 },
-                  height: "auto",
+                  textDecoration: "none",
+                  color: "#1d1d1d",
+                  fontWeight: 500,
+                  fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.35rem" },
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
                 }}
-              />
-              Anywhere Trips
-            </Typography>
+              >
+                My Profile
+              </Typography>
+            ) : (
+              <Typography
+                component={Link}
+                to="/"
+                sx={{
+                  textDecoration: "none",
+                  color: "#1cb690",
+                  fontWeight: 600,
+                  fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Box
+                  component="img"
+                  src={Logo}
+                  alt="Logo"
+                  sx={{
+                    width: { xs: 24, sm: 28, md: 32 },
+                    height: "auto",
+                  }}
+                />
+                Anywhere Trips
+              </Typography>
+            )}
             <Box
               sx={{
                 display: "flex",

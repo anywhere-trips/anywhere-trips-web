@@ -274,11 +274,25 @@ export const Profile: React.FC = () => {
             </Typography>
           )}
 
-          <Tooltip title="Logout">
-            <IconButton sx={{ color: "#1d1d1d" }} onClick={logout}>
-              <LogOut size={isDesktop ? 25 : 20} />
-            </IconButton>
-          </Tooltip>
+          <Button
+            variant="contained"
+            onClick={logout}
+            disabled={loadingProfile}
+            disableElevation
+            startIcon={<LogOut size={isDesktop ? 18 : 15} color="#1d1d1d" />}
+            sx={{
+              mt: 1,
+              fontSize: { xs: "0.85rem", sm: "0.9rem" },
+              py: { xs: 0.8, sm: 1 },
+              textTransform: "none",
+              backgroundColor: "#f8f8f8",
+              color: "#1d1d1d",
+              borderRadius: 25,
+              "&:hover": { backgroundColor: "#f0f0f0" },
+            }}
+          >
+            Logout
+          </Button>
         </Stack>
       </Box>
 
