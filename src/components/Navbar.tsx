@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
   const [openAuth, setOpenAuth] = useState<boolean>(false);
 
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
     const handleScroll = () => {

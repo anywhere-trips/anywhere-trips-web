@@ -13,8 +13,10 @@ import {
   Button,
   CircularProgress,
   Skeleton,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
-import { LogOut, Camera, Trash2 } from "lucide-react";
+import { LogOut, Camera, Trash2, ImagePlus, X } from "lucide-react";
 import { useUserContext } from "../providers/UserProvider";
 import {
   getUserProfile,
@@ -25,7 +27,7 @@ import {
 export const Profile: React.FC = () => {
   const { user, token, logout } = useUserContext();
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
   const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const isMd = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -40,19 +42,23 @@ export const Profile: React.FC = () => {
     username: user?.username || "",
     avatar: "",
   });
+
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [avatarLoading, setAvatarLoading] = useState(false);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+
   const [errors, setErrors] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
     email: "",
   });
+
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -114,15 +120,13 @@ export const Profile: React.FC = () => {
   };
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAvatarModalOpen(false);
     if (!e.target.files?.[0] || !token) return;
-
     const file = e.target.files[0];
 
     try {
       setAvatarLoading(true);
-
       const data = await uploadProfilePicture(token, file);
-
       setProfile((prev) => ({
         ...prev,
         avatar: data.url || "",
@@ -135,12 +139,12 @@ export const Profile: React.FC = () => {
   };
 
   const handleRemoveAvatar = async () => {
+    setAvatarModalOpen(false);
     if (!token || !profile.avatar) return;
 
     try {
       setAvatarLoading(true);
       await removeProfilePicture(token);
-
       setProfile((prev) => ({
         ...prev,
         avatar: "",
@@ -195,92 +199,55 @@ export const Profile: React.FC = () => {
           <Box
             sx={{
               position: "relative",
-              display: "inline-flex",
-              flexDirection: "column",
-              alignItems: "center",
+              width: { xs: 80, md: 90 },
+              height: { xs: 80, md: 90 },
             }}
           >
-            <Box
+            <Avatar
+              src={profile.avatar || undefined}
               sx={{
-                position: "relative",
-                width: { xs: 80, md: 90 },
-                height: { xs: 80, md: 90 },
+                width: "100%",
+                height: "100%",
+                fontWeight: 500,
+                fontSize: { xs: "1.5rem", md: "2rem" },
+                backgroundColor: profile.avatar ? "#f8f8f8" : "#1cb690",
+                opacity: avatarLoading ? 0.5 : 1,
               }}
             >
-              <Avatar
-                src={profile.avatar || undefined}
+              {!profile.avatar && profile.username?.charAt(0).toUpperCase()}
+            </Avatar>
+
+            {avatarLoading && (
+              <Box
                 sx={{
-                  width: "100%",
-                  height: "100%",
-                  fontWeight: 500,
-                  fontSize: { xs: "1.5rem", md: "2rem" },
-                  backgroundColor: "#1cb690",
-                  opacity: avatarLoading ? 0.5 : 1,
+                  position: "absolute",
+                  inset: 0,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                  borderRadius: "50%",
+                  zIndex: 10,
                 }}
               >
-                {!profile.avatar && profile.username?.charAt(0).toUpperCase()}
-              </Avatar>
+                <CircularProgress size={40} sx={{ color: "#fff" }} />
+              </Box>
+            )}
 
-              {avatarLoading && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    inset: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "rgba(255,255,255,0.2)",
-                    borderRadius: "50%",
-                    zIndex: 10,
-                  }}
-                >
-                  <CircularProgress size={40} sx={{ color: "#fff" }} />
-                </Box>
-              )}
-            </Box>
-
-            <Box
+            <IconButton
+              onClick={() => setAvatarModalOpen(true)}
               sx={{
-                display: "flex",
-                gap: 1,
-                mt: 1,
-                px: 1,
-                py: 0.25,
-                borderRadius: 25,
-                backgroundColor: "#f8f8f8",
+                position: "absolute",
+                bottom: -6,
+                right: -6,
+                borderWidth: 1,
+                border: "1px solid #f0f0f0",
+                backgroundColor: "#fff",
+                "&:hover": { backgroundColor: "#f0f0f0" },
               }}
             >
-              <IconButton
-                onClick={handleRemoveAvatar}
-                disabled={avatarLoading || !profile.avatar}
-                disableRipple
-                sx={{
-                  color: "#d32f2f",
-                }}
-              >
-                <Trash2 size={isDesktop ? 20 : 15} />
-              </IconButton>
-
-              <IconButton
-                component="label"
-                disabled={avatarLoading}
-                disableRipple
-                sx={{
-                  color: "#1d1d1d",
-                }}
-              >
-                <Camera size={isDesktop ? 20 : 15} />
-                <input
-                  type="file"
-                  hidden
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                />
-              </IconButton>
-            </Box>
+              <Camera size={isDesktop ? 18 : 15} color="#1cb690" />
+            </IconButton>
           </Box>
         )}
 
@@ -314,6 +281,97 @@ export const Profile: React.FC = () => {
           </Tooltip>
         </Stack>
       </Box>
+
+      <Dialog
+        open={avatarModalOpen}
+        onClose={() => setAvatarModalOpen(false)}
+        fullWidth
+        maxWidth="xs"
+        PaperProps={{
+          sx: { borderRadius: 5 },
+        }}
+      >
+        <DialogContent
+          sx={{ position: "relative", p: 3, backgroundColor: "#f8f8f8" }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 3,
+            }}
+          >
+            <Typography
+              fontWeight={600}
+              sx={{
+                fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.35rem" },
+                color: "#1d1d1d",
+              }}
+            >
+              Profile picture
+            </Typography>
+
+            <IconButton onClick={() => setAvatarModalOpen(false)}>
+              <X size={isDesktop ? 25 : 20} />
+            </IconButton>
+          </Box>
+
+          <Stack
+            sx={{
+              gap: { xs: 8.5, sm: 10, md: 10, lg: 10 },
+            }}
+            direction="row"
+            justifyContent="center"
+          >
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <IconButton
+                onClick={handleRemoveAvatar}
+                disabled={avatarLoading}
+                sx={{ color: "#d32f2f" }}
+              >
+                <Trash2 size={isDesktop ? 25 : 20} />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
+                  color: "#1d1d1d",
+                }}
+                variant="caption"
+              >
+                Remove
+              </Typography>
+            </Box>
+
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <IconButton
+                sx={{ color: "#1d1d1d" }}
+                component="label"
+                disabled={avatarLoading}
+              >
+                <ImagePlus size={isDesktop ? 25 : 20} />
+                <input
+                  hidden
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                />
+              </IconButton>
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
+                  color: "#1d1d1d",
+                }}
+                variant="caption"
+              >
+                Gallery
+              </Typography>
+            </Box>
+          </Stack>
+        </DialogContent>
+      </Dialog>
 
       <Box sx={{ my: 5 }}>
         <Typography

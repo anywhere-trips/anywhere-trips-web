@@ -5,6 +5,8 @@ import {
   IconButton,
   Typography,
   Box,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { X } from "lucide-react";
 import { LoginForm } from "./LoginForm";
@@ -19,6 +21,10 @@ interface AuthDialogProps {
 export const AuthDialog: React.FC<AuthDialogProps> = ({ open, onClose }) => {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const { user } = useUserContext();
+
+  const theme = useTheme();
+
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
     if (user && open) {
@@ -41,29 +47,38 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({ open, onClose }) => {
       <DialogContent
         sx={{ position: "relative", p: 3, backgroundColor: "#f8f8f8" }}
       >
-        <IconButton
+        <Box
           sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 3,
           }}
-          onClick={onClose}
         >
-          <X />
-        </IconButton>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+            onClick={onClose}
+          >
+            <X size={isDesktop ? 25 : 20} />
+          </IconButton>
 
-        <Typography
-          variant="h5"
-          textAlign="center"
-          fontWeight={600}
-          mb={2}
-          sx={{
-            fontSize: { xs: "1.2rem", sm: "1.3rem", md: "1.45rem" },
-            color: "#1d1d1d",
-          }}
-        >
-          {mode === "login" ? "Welcome Back" : "Get Started"}
-        </Typography>
+          <Typography
+            variant="h5"
+            textAlign="center"
+            fontWeight={600}
+            mb={2}
+            sx={{
+              fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.35rem" },
+              color: "#1d1d1d",
+            }}
+          >
+            {mode === "login" ? "Welcome Back" : "Get Started"}
+          </Typography>
+        </Box>
 
         {mode === "login" ? <LoginForm /> : <SignupForm />}
 
