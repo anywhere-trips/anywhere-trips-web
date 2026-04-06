@@ -80,7 +80,7 @@ export const SignupForm: React.FC = () => {
         message: "Account created successfully",
         type: "success",
       });
-      login({ id: res.data.id, username }, "");
+      login({ _id: res.data._id, username }, "");
     } catch (err: any) {
       setSnackbar({
         open: true,

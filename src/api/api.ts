@@ -12,12 +12,15 @@ const axiosInstance = axios.create({
 });
 
 export const signupUser = async (username: string, password: string) => {
-  const response = await axiosInstance.post("/users", { username, password });
+  const response = await axiosInstance.post("/users/create", {
+    username,
+    password,
+  });
   return response.data;
 };
 
 export const loginUser = async (username: string, password: string) => {
-  const response = await axiosInstance.post("/users/login", {
+  const response = await axiosInstance.post("/users/auth/login", {
     username,
     password,
   });
@@ -31,4 +34,35 @@ export const getUserProfile = async (token: string) => {
     },
   });
   return response.data.data;
+};
+
+export const uploadProfilePicture = async (token: string, file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await axiosInstance.post(
+    "/users/me/upload-profile-picture",
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    },
+  );
+
+  return response.data.data;
+};
+
+export const removeProfilePicture = async (token: string) => {
+  const response = await axiosInstance.delete(
+    "/users/me/remove-profile-picture",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
 };

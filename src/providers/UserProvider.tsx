@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 interface User {
-  id?: string;
+  _id?: string;
   username?: string;
   accessToken?: string;
 }

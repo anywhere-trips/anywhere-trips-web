@@ -14,9 +14,13 @@ import {
   CircularProgress,
   Skeleton,
 } from "@mui/material";
-import { LogOut } from "lucide-react";
+import { LogOut, Camera, Trash2 } from "lucide-react";
 import { useUserContext } from "../providers/UserProvider";
-import { getUserProfile } from "../api/api";
+import {
+  getUserProfile,
+  uploadProfilePicture,
+  removeProfilePicture,
+} from "../api/api";
 
 export const Profile: React.FC = () => {
   const { user, token, logout } = useUserContext();
@@ -28,10 +32,16 @@ export const Profile: React.FC = () => {
   const helperFontSize = isMd ? "0.9rem" : isSm ? "0.85rem" : "0.8rem";
   const inputFontSize = { xs: "0.9rem", sm: "0.95rem", md: "1rem" };
 
-  const [profile, setProfile] = useState<{ id?: string; username?: string }>({
+  const [profile, setProfile] = useState<{
+    id?: string;
+    username?: string;
+    avatar?: string;
+  }>({
     username: user?.username || "",
+    avatar: "",
   });
   const [loadingProfile, setLoadingProfile] = useState(true);
+  const [avatarLoading, setAvatarLoading] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -51,7 +61,11 @@ export const Profile: React.FC = () => {
       setLoadingProfile(true);
       try {
         const data = await getUserProfile(token);
-        setProfile(data);
+        setProfile({
+          id: data._id,
+          username: data.username,
+          avatar: data.profile_picture?.url || "",
+        });
       } catch (err) {
         console.error("Failed to fetch profile", err);
       } finally {
@@ -99,6 +113,45 @@ export const Profile: React.FC = () => {
     }, 1000);
   };
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0] || !token) return;
+
+    const file = e.target.files[0];
+
+    try {
+      setAvatarLoading(true);
+
+      const data = await uploadProfilePicture(token, file);
+
+      setProfile((prev) => ({
+        ...prev,
+        avatar: data.url || "",
+      }));
+    } catch (err) {
+      console.error("Upload failed", err);
+    } finally {
+      setAvatarLoading(false);
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    if (!token || !profile.avatar) return;
+
+    try {
+      setAvatarLoading(true);
+      await removeProfilePicture(token);
+
+      setProfile((prev) => ({
+        ...prev,
+        avatar: "",
+      }));
+    } catch (err) {
+      console.error("Remove failed", err);
+    } finally {
+      setAvatarLoading(false);
+    }
+  };
+
   if (!user) {
     return (
       <Box
@@ -139,17 +192,96 @@ export const Profile: React.FC = () => {
             height={isDesktop ? 90 : 80}
           />
         ) : (
-          <Avatar
+          <Box
             sx={{
-              height: { xs: 80, md: 90 },
-              width: { xs: 80, md: 90 },
-              fontWeight: 500,
-              fontSize: { xs: "1.5rem", md: "2rem" },
-              backgroundColor: "#1cb690",
+              position: "relative",
+              display: "inline-flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            {profile.username?.charAt(0).toUpperCase()}
-          </Avatar>
+            <Box
+              sx={{
+                position: "relative",
+                width: { xs: 80, md: 90 },
+                height: { xs: 80, md: 90 },
+              }}
+            >
+              <Avatar
+                src={profile.avatar || undefined}
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  fontWeight: 500,
+                  fontSize: { xs: "1.5rem", md: "2rem" },
+                  backgroundColor: "#1cb690",
+                  opacity: avatarLoading ? 0.5 : 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {!profile.avatar && profile.username?.charAt(0).toUpperCase()}
+              </Avatar>
+
+              {avatarLoading && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    borderRadius: "50%",
+                    zIndex: 10,
+                  }}
+                >
+                  <CircularProgress size={40} sx={{ color: "#fff" }} />
+                </Box>
+              )}
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                mt: 1,
+                px: 1,
+                py: 0.25,
+                borderRadius: 25,
+                backgroundColor: "#f8f8f8",
+              }}
+            >
+              <IconButton
+                onClick={handleRemoveAvatar}
+                disabled={avatarLoading || !profile.avatar}
+                disableRipple
+                sx={{
+                  color: "#d32f2f",
+                }}
+              >
+                <Trash2 size={isDesktop ? 20 : 15} />
+              </IconButton>
+
+              <IconButton
+                component="label"
+                disabled={avatarLoading}
+                disableRipple
+                sx={{
+                  color: "#1d1d1d",
+                }}
+              >
+                <Camera size={isDesktop ? 20 : 15} />
+                <input
+                  type="file"
+                  hidden
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                />
+              </IconButton>
+            </Box>
+          </Box>
         )}
 
         <Stack
@@ -227,12 +359,6 @@ export const Profile: React.FC = () => {
                     borderRadius: 25,
                   },
                 }}
-                InputLabelProps={{
-                  sx: {
-                    fontSize: inputFontSize,
-                    "&.Mui-focused": { color: "#1cb690" },
-                  },
-                }}
               />
               <TextField
                 placeholder="Middle Name"
@@ -253,12 +379,6 @@ export const Profile: React.FC = () => {
                     px: 2,
                     py: 1,
                     borderRadius: 25,
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    fontSize: inputFontSize,
-                    "&.Mui-focused": { color: "#1cb690" },
                   },
                 }}
               />
@@ -283,12 +403,6 @@ export const Profile: React.FC = () => {
                     borderRadius: 25,
                   },
                 }}
-                InputLabelProps={{
-                  sx: {
-                    fontSize: inputFontSize,
-                    "&.Mui-focused": { color: "#1cb690" },
-                  },
-                }}
               />
               <TextField
                 placeholder="Email"
@@ -309,12 +423,6 @@ export const Profile: React.FC = () => {
                     px: 2,
                     py: 1,
                     borderRadius: 25,
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    fontSize: inputFontSize,
-                    "&.Mui-focused": { color: "#1cb690" },
                   },
                 }}
               />

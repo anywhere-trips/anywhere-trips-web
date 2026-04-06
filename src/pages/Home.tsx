@@ -279,7 +279,7 @@ export const Home: React.FC = () => {
                 mb: 3,
               }}
             >
-              Bhutan Packages
+              Featured Packages
             </Typography>
           )}
 
