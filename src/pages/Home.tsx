@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { useUserContext } from "../providers/UserProvider";
 
+import { getPackages } from "../api/api";
+
 interface Package {
   id: number;
   title: string;
@@ -58,49 +60,43 @@ export const Home: React.FC = () => {
     },
   ];
 
+  const getFeaturedPackages = async () => {
+    try {
+      const response = await getPackages(true);
+
+      if (
+        response?.status &&
+        response.status === "success" &&
+        response?.count &&
+        response.count > 0 &&
+        response?.data &&
+        Array.isArray(response.data) &&
+        response.data.length > 0
+      ) {
+        setPackages(
+          response?.data.map((pkg: any) => ({
+            _id: pkg?._id,
+            packageName: pkg?.package_name,
+            shortDescription: pkg?.short_description,
+            durationDays:
+              pkg?.duration_days != null ? parseInt(pkg.duration_days) : null,
+            location: pkg?.location,
+            thumbnail: pkg?.images?.find(
+              (img: any) => img?.type === "thumbnail",
+            )?.url,
+          })),
+        );
+        setLoading(false);
+      } else {
+        throw {};
+      }
+    } catch (error: any) {
+      setLoading(true);
+    }
+  };
+
   useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setPackages([
-        {
-          id: 1,
-          title: "Thimphu & Paro",
-          description: "Explore the cultural heart of Bhutan.",
-          image:
-            "https://www.authenticindiatours.com/app/uploads/2022/04/Rinpung-Dzong-Paro-Bhutan-1400x550-c-default.jpg",
-          price: "₹30,000",
-          duration: "4 Nights 5 Days",
-        },
-        {
-          id: 2,
-          title: "Tiger's Nest Hike",
-          description: "A thrilling hike to the iconic Tiger's Nest Monastery.",
-          image:
-            "https://assets.cntraveller.in/photos/60be1e1a97b0a0effa438ce6/16:9/w_1024%2Cc_limit/Bhutan-1366x768.jpg",
-          price: "₹24,500",
-          duration: "3 Nights 4 Days",
-        },
-        {
-          id: 3,
-          title: "Punakha & Gangtey",
-          description: "Experience Bhutan’s beautiful valleys and rivers.",
-          image:
-            "https://www.rstravels.co.in/images/page/architectural-marvel-of-punakha-dzongs.jpg",
-          price: "₹35,000",
-          duration: "4 Nights 5 Days",
-        },
-        {
-          id: 4,
-          title: "Eastern Bhutan Tour",
-          description: "Discover the hidden gems of Eastern Bhutan.",
-          image:
-            "https://indochinatravel.com/country/bhutan/images/trashigang-valley-view-860.jpg",
-          price: "Get a Quote",
-          duration: "5 Nights 6 Days",
-        },
-      ]);
-      setLoading(false);
-    }, 1500);
+    getFeaturedPackages();
   }, []);
 
   return (
@@ -115,59 +111,72 @@ export const Home: React.FC = () => {
             overflow: "hidden",
           }}
         >
-          <Box
-            component="img"
-            src="https://static.cozycozy.com/images/catalog/bg2/horizontal-edinburgh.jpg"
-            alt="Hero"
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6))",
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              px: 2,
-              gap: 1,
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#fff",
-                fontSize: { xs: "1.5rem", md: "2.1rem" },
-                fontWeight: 600,
-              }}
-            >
-              {user?.username
-                ? "Hello " + user?.username
-                : "Hello. Where to next?"}
-            </Typography>
-            <Typography
-              sx={{
-                color: "#fff",
-                fontSize: { xs: "0.9rem", sm: "1", md: "1.1rem" },
-                fontWeight: 400,
-                opacity: 1,
-              }}
-            >
-              Explore. Dream. Discover.
-            </Typography>
-          </Box>
+          {loading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              sx={{ borderRadius: 4 }}
+            />
+          ) : (
+            <>
+              <Box
+                component="img"
+                src="https://static.cozycozy.com/images/catalog/bg2/horizontal-edinburgh.jpg"
+                alt="Hero"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+
+              <Box
+                sx={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6))",
+                }}
+              />
+
+              <Box
+                sx={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  px: 2,
+                  gap: 1,
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    fontSize: { xs: "1.5rem", md: "2.1rem" },
+                    fontWeight: 600,
+                  }}
+                >
+                  {user?.username
+                    ? "Hello " + user?.username
+                    : "Hello. Where to next?"}
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    fontSize: { xs: "0.9rem", sm: "1", md: "1.1rem" },
+                    fontWeight: 400,
+                  }}
+                >
+                  Explore. Dream. Discover.
+                </Typography>
+              </Box>
+            </>
+          )}
         </Box>
 
         <Box sx={{ mt: 5 }}>
@@ -195,12 +204,20 @@ export const Home: React.FC = () => {
 
           <Box
             sx={{
-              display: "grid",
-              gap: 1,
-              gridTemplateColumns: {
-                xs: "repeat(4, 1fr)",
-                sm: "repeat(5, 1fr)",
-                md: "repeat(7, 1fr)",
+              display: "flex",
+              gap: 1.5,
+              overflowX: "auto",
+              pb: 1,
+              px: 1,
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
+              "@media (min-width:600px)": {
+                display: "grid",
+                overflowX: "unset",
+                gridTemplateColumns: "repeat(5, 1fr)",
+              },
+              "@media (min-width:900px)": {
+                gridTemplateColumns: "repeat(7, 1fr)",
               },
             }}
           >
@@ -208,6 +225,8 @@ export const Home: React.FC = () => {
               <Box
                 key={country.id}
                 sx={{
+                  flex: "0 0 auto",
+                  width: { xs: 80, sm: "auto" },
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -248,7 +267,7 @@ export const Home: React.FC = () => {
                   <Typography
                     sx={{
                       mt: 1,
-                      fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
+                      fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" },
                       fontWeight: 500,
                     }}
                   >
@@ -296,7 +315,7 @@ export const Home: React.FC = () => {
           >
             {(loading ? Array.from({ length: 4 }) : packages).map(
               (pkg: any, idx) => (
-                <Box key={pkg?.id || idx}>
+                <Box key={pkg?._id || idx}>
                   {loading ? (
                     <Skeleton
                       variant="rectangular"
@@ -313,12 +332,14 @@ export const Home: React.FC = () => {
                       }}
                       elevation={0}
                     >
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={pkg.image}
-                        alt={pkg.title}
-                      />
+                      <Box sx={{ backgroundColor: "#f0f0f0" }}>
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={pkg?.thumbnail}
+                          alt={pkg?.packageName}
+                        />
+                      </Box>
                       <CardContent sx={{ flexGrow: 1 }}>
                         <Typography
                           sx={{
@@ -331,7 +352,7 @@ export const Home: React.FC = () => {
                             mb: 0.5,
                           }}
                         >
-                          {pkg.title}
+                          {pkg?.packageName}
                         </Typography>
                         <Typography
                           sx={{
@@ -342,9 +363,14 @@ export const Home: React.FC = () => {
                             },
                             color: "text.secondary",
                             mb: 1,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
                           }}
                         >
-                          {pkg.description}
+                          {pkg?.shortDescription}
                         </Typography>
                         <Typography
                           sx={{
@@ -357,7 +383,10 @@ export const Home: React.FC = () => {
                             },
                           }}
                         >
-                          {pkg.price} • {pkg.duration}
+                          Get a Quote •{" "}
+                          {pkg?.durationDays
+                            ? `${pkg.durationDays - 1} Nights ${pkg.durationDays} Days`
+                            : null}
                         </Typography>
                       </CardContent>
                     </Card>

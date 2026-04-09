@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_BASE = "https://api.anywheretrips.in/v1";
+const API_BASE_URL_V1 = "https://api.anywheretrips.in/v1";
 const API_KEY = "urWQuAoOFwN2FeQGyXZys5eZzSOWYA9G";
 
 const axiosInstance = axios.create({
-  baseURL: API_BASE,
+  baseURL: API_BASE_URL_V1,
   headers: {
     "x-api-key": API_KEY,
     "Content-Type": "application/json",
@@ -63,6 +63,20 @@ export const removeProfilePicture = async (token: string) => {
       },
     },
   );
+
+  return response.data;
+};
+
+export const getPackages = async (isFeatured: boolean = false) => {
+  let url = `${API_BASE_URL_V1}/packages`;
+
+  if (isFeatured) url += "?isFeatured=True";
+
+  const response = await axios.get(url, {
+    headers: {
+      "x-api-key": API_KEY,
+    },
+  });
 
   return response.data;
 };
