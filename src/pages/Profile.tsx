@@ -25,6 +25,8 @@ import {
   getWishlist,
 } from "../api/api";
 
+import WishlistIcon from "../assets/icons/wishlist.svg";
+
 export const Profile: React.FC = () => {
   const { user, token, logout } = useUserContext();
   const theme = useTheme();
@@ -588,30 +590,36 @@ export const Profile: React.FC = () => {
         ) : wishlistPackages.length === 0 ? (
           <Box
             sx={{
-              p: 3,
-              py: 5,
+              p: { xs: 3, md: 5 },
               borderRadius: 5,
               backgroundColor: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
               textAlign: "center",
+              gap: 2,
             }}
           >
+            <Box
+              component="img"
+              src={WishlistIcon}
+              alt="Empty wishlist"
+              sx={{
+                width: { xs: 60, sm: 90, md: 120 },
+                height: "auto",
+              }}
+            />
+
             <Typography
               sx={{
+                mt: 1,
                 fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" },
                 fontWeight: 600,
                 color: "#1d1d1d",
-                mb: 1,
               }}
             >
-              Your wishlist feels a little empty
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: { xs: "0.8rem", sm: "0.9rem" },
-                color: "text.secondary",
-              }}
-            >
-              Start adding dreamy destinations and build your next adventure
+              Nothing saved yet… let’s change that
             </Typography>
           </Box>
         ) : (
@@ -646,14 +654,14 @@ export const Profile: React.FC = () => {
                     alt={pkg.packageName}
                     sx={{
                       width: "100%",
-                      height: 110,
+                      height: { xs: 100, sm: 110, md: 120 },
                       objectFit: "cover",
                     }}
                   />
                   <Typography
                     sx={{
                       p: 1,
-                      fontSize: { xs: "0.8rem", sm: "0.85rem" },
+                      fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
                       fontWeight: 500,
                       color: "#1d1d1d",
                       display: "-webkit-box",
