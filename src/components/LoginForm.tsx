@@ -156,10 +156,18 @@ export const LoginForm: React.FC = () => {
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         onClose={() => setSnackbar({ open: false, message: "" })}
       >
-        <Alert severity="error" sx={{ fontSize: helperFontSize }}>
+        <Alert
+          sx={{
+            width: { xs: "90vw", sm: "350px", md: "400px" },
+            borderRadius: 2,
+            fontSize: helperFontSize,
+            alignItems: "center",
+          }}
+          severity="error"
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

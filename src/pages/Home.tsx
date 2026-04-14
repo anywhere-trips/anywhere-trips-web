@@ -613,9 +613,19 @@ export const Home: React.FC = () => {
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       >
-        <Alert severity={snackbarSeverity}>{snackbarMessage}</Alert>
+        <Alert
+          sx={{
+            width: { xs: "90vw", sm: "350px", md: "400px" },
+            borderRadius: 2,
+            fontSize: "0.85rem",
+            alignItems: "center",
+          }}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </Alert>
       </Snackbar>
     </>
   );

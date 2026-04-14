@@ -10,6 +10,7 @@ import { SecureRoute } from "./SecureRoute";
 
 import { Home } from "../pages/Home";
 import { Profile } from "../pages/Profile";
+import { Wishlist } from "../pages/Wishlist";
 import { PageNotFound } from "../pages/PageNotFound";
 
 import { ScrollToTop } from "../components/ScrollToTop";
@@ -29,6 +30,14 @@ export const AppRoute: React.FC<AppRouteProps> = () => {
               element={
                 <SecureRoute>
                   <Profile />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path="wishlist"
+              element={
+                <SecureRoute>
+                  <Wishlist />
                 </SecureRoute>
               }
             />

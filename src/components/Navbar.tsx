@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { Search, Home, User, UserCheck } from "lucide-react";
+import { Search, Home, User, UserCheck, Heart } from "lucide-react";
 import { Badge } from "@mui/material";
 
 import Logo from "../assets/logo192.png";
@@ -70,6 +70,22 @@ export const Navbar: React.FC = () => {
                 }}
               >
                 My Profile
+              </Typography>
+            ) : location.pathname === "/wishlist" ? (
+              <Typography
+                component={Link}
+                to="/"
+                sx={{
+                  textDecoration: "none",
+                  color: "#1d1d1d",
+                  fontWeight: 500,
+                  fontSize: { xs: "1.1rem", sm: "1.2rem", md: "1.35rem" },
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                My Wishlist
               </Typography>
             ) : (
               <Typography
@@ -131,11 +147,17 @@ export const Navbar: React.FC = () => {
                 </Tooltip>
               )}
 
-              <Tooltip title="Search">
-                <IconButton component={Link} to="/" sx={{ color: "#1D1D1D" }}>
-                  <Search size={isDesktop ? 25 : 22} />
-                </IconButton>
-              </Tooltip>
+              {user && (
+                <Tooltip title="Wishlist">
+                  <IconButton
+                    component={Link}
+                    to="/wishlist"
+                    sx={{ color: "#1D1D1D" }}
+                  >
+                    <Heart size={isDesktop ? 25 : 22} />
+                  </IconButton>
+                </Tooltip>
+              )}
             </Box>
           </Toolbar>
         </Container>
