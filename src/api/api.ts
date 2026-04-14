@@ -69,7 +69,7 @@ export const removeProfilePicture = async (token: string) => {
 
 export const addToWishlist = async (token: string, packageId: string) => {
   const response = await axiosInstance.post(
-    "/users/packages/wishlist",
+    "/users/me/wishlist",
     {
       package_id: packageId,
     },
@@ -84,7 +84,7 @@ export const addToWishlist = async (token: string, packageId: string) => {
 };
 
 export const getWishlist = async (token: string) => {
-  const response = await axiosInstance.get("/users/packages/wishlist", {
+  const response = await axiosInstance.get("/users/me/wishlist", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -94,7 +94,7 @@ export const getWishlist = async (token: string) => {
 };
 
 export const removeFromWishlist = async (token: string, packageId: string) => {
-  const response = await axiosInstance.delete("/users/packages/wishlist", {
+  const response = await axiosInstance.delete("/users/me/wishlist", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
