@@ -377,7 +377,7 @@ export const Home: React.FC = () => {
                 display: "grid",
                 gap: 3,
                 gridTemplateColumns: {
-                  xs: "repeat(2, 1fr)",
+                  xs: "repeat(1, 1fr)",
                   sm: "repeat(2, 1fr)",
                   md: "repeat(4, 1fr)",
                 },
