@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Container,
@@ -9,6 +10,7 @@ import {
   Skeleton,
   Avatar,
   Stack,
+  Button,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -38,6 +40,12 @@ export const Home: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "info">(
     "success",
   );
+
+  const navigate = useNavigate();
+
+  const onPackageCardClick = (packageId: string) => {
+    navigate(`/packages/${packageId}`);
+  };
 
   const loadContent = async () => {
     try {
@@ -164,7 +172,7 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <Box sx={{ minHeight: "100vh", py: 5 }}>
+      <Box sx={{ minHeight: "100vh", py: { xs: 2.5, md: 5 } }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -186,7 +194,7 @@ export const Home: React.FC = () => {
               <>
                 <Box
                   component="img"
-                  src="https://static.cozycozy.com/images/catalog/bg2/horizontal-edinburgh.jpg"
+                  src="https://images.ctfassets.net/8bbwomjfix8m/migrated_1061_banner/e48c79959a54905b036d4dee15a22f01/Regional_NZ_Banner.jpg_.jpg"
                   alt="Hero"
                   sx={{
                     width: "100%",
@@ -200,7 +208,7 @@ export const Home: React.FC = () => {
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6))",
+                      "linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3))",
                   }}
                 />
 
@@ -214,19 +222,17 @@ export const Home: React.FC = () => {
                     alignItems: "center",
                     textAlign: "center",
                     px: 2,
-                    gap: 1,
+                    gap: 0,
                   }}
                 >
                   <Typography
                     sx={{
                       color: "#fff",
-                      fontSize: { xs: "1.5rem", md: "2.1rem" },
+                      fontSize: { xs: "1.9rem", md: "2.5rem" },
                       fontWeight: 600,
                     }}
                   >
-                    {user?.username
-                      ? "Hello " + user?.username
-                      : "Where to next?"}
+                    Where to next?
                   </Typography>
 
                   <Typography
@@ -395,6 +401,7 @@ export const Home: React.FC = () => {
                     ) : (
                       <Card
                         sx={{
+                          border: "1px solid #d8d8d8",
                           borderRadius: 5,
                           height: "100%",
                           display: "flex",
@@ -469,22 +476,55 @@ export const Home: React.FC = () => {
                           >
                             {pkg?.shortDescription}
                           </Typography>
-                          <Typography
+                          <Box
                             sx={{
-                              fontWeight: 500,
-                              color: "#1cb690",
-                              fontSize: {
-                                xs: "0.8rem",
-                                sm: "0.85rem",
-                                md: "0.9rem",
-                              },
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              mt: 1,
                             }}
                           >
-                            Get a Quote •{" "}
-                            {pkg?.durationDays
-                              ? `${pkg.durationDays - 1} Nights ${pkg.durationDays} Days`
-                              : null}
-                          </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: {
+                                  xs: "0.8rem",
+                                  sm: "0.85rem",
+                                  md: "0.9rem",
+                                },
+                                fontWeight: 600,
+                                color: "#1d1d1d",
+                              }}
+                            >
+                              {pkg?.durationDays
+                                ? `${pkg.durationDays - 1} Nights ${pkg.durationDays} Days`
+                                : null}
+                            </Typography>
+
+                            <Button
+                              variant="contained"
+                              disableElevation
+                              onClick={() => onPackageCardClick(pkg._id.toString())}
+                              sx={{
+                                px: 1.6,
+                                py: 0.4,
+                                borderRadius: 25,
+                                textTransform: "none",
+                                fontWeight: 500,
+                                backgroundColor: "#1cb690",
+                                fontSize: {
+                                  xs: "0.75rem",
+                                  sm: "0.8rem",
+                                  md: "0.85rem",
+                                },
+
+                                "&:hover": {
+                                  backgroundColor: "#18a583",
+                                },
+                              }}
+                            >
+                              Learn more
+                            </Button>
+                          </Box>
                         </CardContent>
                       </Card>
                     )}
@@ -556,6 +596,7 @@ export const Home: React.FC = () => {
                     flex: "0 0 auto",
                     width: { xs: 220, sm: "auto" },
                     p: 2,
+                    border: "1px solid #d8d8d8",
                     borderRadius: "15px",
                     backgroundColor: "#fff",
                     display: "flex",

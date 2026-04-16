@@ -4,4 +4,11 @@ export const theme = createTheme({
   typography: {
     fontFamily: "Poppins, sans-serif",
   },
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+  },
 });

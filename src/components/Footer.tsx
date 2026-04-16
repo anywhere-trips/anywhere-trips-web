@@ -17,8 +17,8 @@ export const Footer: React.FC<FooterProps> = () => {
       component="footer"
       sx={{
         py: { xs: 4, md: 5 },
-        color: "#1d1d1d",
-        backgroundColor: "#ffffff",
+        color: "#ffffff",
+        backgroundColor: "#0b493a",
       }}
     >
       <Container maxWidth="lg">
@@ -33,7 +33,7 @@ export const Footer: React.FC<FooterProps> = () => {
               sx={{
                 fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
                 fontWeight: 600,
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               Anywhere Trips
@@ -42,11 +42,10 @@ export const Footer: React.FC<FooterProps> = () => {
               sx={{
                 fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
                 lineHeight: 1.6,
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
-              Explore. Discover. Repeat. Anywhere Trips makes every trip a story
-              worth telling.
+              Explore. Dream. Discover.
             </Typography>
           </Box>
 
@@ -55,7 +54,7 @@ export const Footer: React.FC<FooterProps> = () => {
               sx={{
                 fontWeight: 600,
                 fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" },
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               Quick Links
@@ -65,7 +64,7 @@ export const Footer: React.FC<FooterProps> = () => {
               underline="hover"
               sx={{
                 fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               Home
@@ -77,7 +76,7 @@ export const Footer: React.FC<FooterProps> = () => {
               sx={{
                 fontWeight: 600,
                 fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" },
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               Contact Us
@@ -85,7 +84,7 @@ export const Footer: React.FC<FooterProps> = () => {
             <Typography
               sx={{
                 fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               +91 93621 24857
@@ -97,7 +96,7 @@ export const Footer: React.FC<FooterProps> = () => {
               sx={{
                 fontWeight: 600,
                 fontSize: { xs: "0.9rem", sm: "1rem", md: "1.05rem" },
-                color: "#1d1d1d",
+                color: "#ffffff",
               }}
             >
               Follow Us
@@ -106,7 +105,7 @@ export const Footer: React.FC<FooterProps> = () => {
               <IconButton
                 href="https://www.facebook.com/anywhere.tripss"
                 sx={{
-                  color: "#1D1D1D",
+                  color: "#ffffff",
                   p: { xs: 0.5, md: 1 },
                 }}
                 aria-label="Facebook"
@@ -116,7 +115,7 @@ export const Footer: React.FC<FooterProps> = () => {
               <IconButton
                 href="https://www.instagram.com/anywhere.trips"
                 sx={{
-                  color: "#1D1D1D",
+                  color: "#ffffff",
                   p: { xs: 0.5, md: 1 },
                 }}
                 aria-label="Instagram"
@@ -131,7 +130,7 @@ export const Footer: React.FC<FooterProps> = () => {
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.8rem", md: "0.85rem" },
-              color: "#1d1d1d",
+              color: "#ffffff",
             }}
           >
             &copy; {new Date().getFullYear()} Anywhere Trips. All rights

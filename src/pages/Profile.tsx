@@ -178,13 +178,14 @@ export const Profile: React.FC = () => {
     <Container maxWidth="lg">
       <Box
         sx={{
-          mt: { xs: 6, md: 8 },
+          mt: { xs: 2.5, md: 5 },
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           alignItems: "center",
           gap: { xs: 2, md: 3 },
           textAlign: { xs: "center", md: "left" },
           backgroundColor: "#ffffff",
+          border: "1px solid #d8d8d8",
           p: { xs: 2, md: 3 },
           borderRadius: 5,
         }}
@@ -425,6 +426,7 @@ export const Profile: React.FC = () => {
                   disableUnderline: true,
                   sx: {
                     fontSize: inputFontSize,
+                    border: "1px solid #d8d8d8",
                     backgroundColor: "#fff",
                     px: 2,
                     py: 1,
@@ -447,6 +449,7 @@ export const Profile: React.FC = () => {
                   disableUnderline: true,
                   sx: {
                     fontSize: inputFontSize,
+                    border: "1px solid #d8d8d8",
                     backgroundColor: "#fff",
                     px: 2,
                     py: 1,
@@ -469,6 +472,7 @@ export const Profile: React.FC = () => {
                   disableUnderline: true,
                   sx: {
                     fontSize: inputFontSize,
+                    border: "1px solid #d8d8d8",
                     backgroundColor: "#fff",
                     px: 2,
                     py: 1,
@@ -491,6 +495,7 @@ export const Profile: React.FC = () => {
                   disableUnderline: true,
                   sx: {
                     fontSize: inputFontSize,
+                    border: "1px solid #d8d8d8",
                     backgroundColor: "#fff",
                     px: 2,
                     py: 1,

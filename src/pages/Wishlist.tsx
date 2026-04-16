@@ -67,7 +67,7 @@ export const Wishlist: React.FC = () => {
     <Container maxWidth="lg">
       <Box
         sx={{
-          my: { xs: 6, md: 8 },
+          my: { xs: 2.5, md: 5 },
           display: "flex",
           flexDirection: "column",
           gap: 3,
@@ -86,98 +86,99 @@ export const Wishlist: React.FC = () => {
         >
           {wishlistLoading
             ? Array.from({ length: isMobile ? 4 : 8 }).map((_, idx) => (
-                <Box key={idx}>
-                  <Skeleton
-                    variant="rectangular"
-                    sx={{
-                      width: "100%",
-                      height: { xs: 135, sm: 155, md: 175 },
-                      borderRadius: 3,
-                    }}
-                  />
-                </Box>
-              ))
-            : wishlistPackages.map((pkg: any) => (
-                <Box
-                  key={pkg._id}
+              <Box key={idx}>
+                <Skeleton
+                  variant="rectangular"
                   sx={{
+                    width: "100%",
+                    height: { xs: 135, sm: 155, md: 175 },
                     borderRadius: 3,
-                    overflow: "hidden",
-                    backgroundColor: "#fff",
-                    display: "flex",
-                    flexDirection: "column",
                   }}
-                >
-                  <Box
-                    component="img"
-                    src={pkg.image}
-                    alt={pkg.packageName}
+                />
+              </Box>
+            ))
+            : wishlistPackages.map((pkg: any) => (
+              <Box
+                key={pkg._id}
+                sx={{
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  border: "1px solid #d8d8d8",
+                  backgroundColor: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Box
+                  component="img"
+                  src={pkg.image}
+                  alt={pkg.packageName}
+                  sx={{
+                    width: "100%",
+                    height: { xs: 120, sm: 140, md: 160 },
+                    objectFit: "cover",
+                  }}
+                />
+
+                <Box sx={{ p: 1 }}>
+                  <Typography
                     sx={{
-                      width: "100%",
-                      height: { xs: 120, sm: 140, md: 160 },
-                      objectFit: "cover",
+                      fontSize: {
+                        xs: "0.8rem",
+                        sm: "0.85rem",
+                        md: "0.9rem",
+                      },
+                      fontWeight: 500,
+                      color: "#1d1d1d",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
                     }}
-                  />
+                  >
+                    {pkg.packageName}
+                  </Typography>
 
-                  <Box sx={{ p: 1 }}>
-                    <Typography
-                      sx={{
-                        fontSize: {
-                          xs: "0.8rem",
-                          sm: "0.85rem",
-                          md: "0.9rem",
-                        },
-                        fontWeight: 500,
-                        color: "#1d1d1d",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {pkg.packageName}
-                    </Typography>
+                  <Button
+                    onClick={() => handleRemove(pkg._id)}
+                    size="small"
+                    disableRipple
+                    sx={{
+                      mt: 1,
+                      px: 1,
+                      py: 0.5,
+                      minWidth: "auto",
+                      fontSize: {
+                        xs: "0.7rem",
+                        sm: "0.75rem",
+                        md: "0.8rem",
+                      },
+                      textTransform: "none",
+                      color: "#fff",
+                      backgroundColor: "#d32f2f",
+                      borderRadius: 1.5,
 
-                    <Button
-                      onClick={() => handleRemove(pkg._id)}
-                      size="small"
-                      disableRipple
-                      sx={{
-                        mt: 1,
-                        px: 1,
-                        py: 0.5,
-                        minWidth: "auto",
-                        fontSize: {
-                          xs: "0.7rem",
-                          sm: "0.75rem",
-                          md: "0.8rem",
-                        },
-                        textTransform: "none",
-                        color: "#fff",
+                      "&:hover": {
                         backgroundColor: "#d32f2f",
-                        borderRadius: 1.5,
-
-                        "&:hover": {
-                          backgroundColor: "#d32f2f",
-                        },
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </Box>
+                      },
+                    }}
+                  >
+                    Remove
+                  </Button>
                 </Box>
-              ))}
+              </Box>
+            ))}
         </Box>
 
         {!wishlistLoading && wishlistPackages.length === 0 && (
           <Box
             sx={{
-              mt: 4,
+              my: { xs: 5, md: 10 },
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",
-              gap: 2,
+              gap: 1,
             }}
           >
             <Box
@@ -190,7 +191,7 @@ export const Wishlist: React.FC = () => {
             />
 
             <Typography
-              sx={{ fontSize: { xs: "1.25rem", sm: "1.35rem", md: "1.5rem" } }}
+              sx={{ fontSize: { xs: "1.30rem", sm: "1.40rem", md: "1.55rem" } }}
               fontWeight={600}
             >
               Nothing saved yet
@@ -200,7 +201,7 @@ export const Wishlist: React.FC = () => {
               sx={{
                 fontSize: { xs: "0.8rem", sm: "0.85rem", md: "0.9rem" },
                 color: "#555",
-                maxWidth: 400,
+                maxWidth: 500,
               }}
             >
               Explore destinations and save your favorite travel packages here.

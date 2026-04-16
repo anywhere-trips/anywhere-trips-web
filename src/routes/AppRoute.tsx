@@ -13,9 +13,11 @@ import { Profile } from "../pages/Profile";
 import { Wishlist } from "../pages/Wishlist";
 import { PageNotFound } from "../pages/PageNotFound";
 
+import { PackageDetail } from "../pages/packages/PackageDetail";
+
 import { ScrollToTop } from "../components/ScrollToTop";
 
-interface AppRouteProps {}
+interface AppRouteProps { }
 
 export const AppRoute: React.FC<AppRouteProps> = () => {
   return (
@@ -41,6 +43,7 @@ export const AppRoute: React.FC<AppRouteProps> = () => {
                 </SecureRoute>
               }
             />
+            <Route path="/packages/:packageId" element={<PackageDetail />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
