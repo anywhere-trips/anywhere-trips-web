@@ -178,7 +178,7 @@ export const Home: React.FC = () => {
             sx={{
               position: "relative",
               width: "100%",
-              height: { xs: 180, md: 260 },
+              height: { xs: 200, md: 280 },
               borderRadius: 5,
               overflow: "hidden",
             }}
